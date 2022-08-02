@@ -1,5 +1,5 @@
 //Whether debuging is enabled or not
-var IS_DEBUG=true;
+var IS_DEBUG=false;
 //Whether to show fps counter or not
 var SHOW_FPS = false;
 
@@ -915,7 +915,28 @@ var step;
 var hh;
 var gg;
 
+function hideMenu() {
+
+    $(function(){
+        $("#MENU").animate(
+        {
+            bottom:"-300px",
+        }, 1000);
+    })
+}
+
+function revealMenu() {
+    $(function(){
+        $("#MENU").animate(
+        {
+            bottom:"0px",
+        }, 1000);
+    })
+}
+
 function playFloat() {
+    hideMenu();
+
     step = 0;
     hh = 0;
     gg = 5;
@@ -926,14 +947,16 @@ function float_animation() {
     step += 0.01;
     mC3DGLTF.scene.position.y = hh + ( gg * Math.abs(Math.sin(step)));
 
-    if (step > 2 && mC3DGLTF.scene.position.y < 4.5) {
+    if (step > 1.8 && mC3DGLTF.scene.position.y < 4.5) {
         hh = mC3DGLTF.scene.position.y
         step = 0;
-        gg = 0.3;
+        gg = 0.5;
     }
 
-    if (step > 2.1) {
+    if (step > 2) {
         console.log("ended!!!")
+
+        revealMenu();
         return;
     }
 
@@ -941,6 +964,8 @@ function float_animation() {
 }
 
 function playUnfloat() {
+    hideMenu();
+
     unfloat_animation();
 }
 
@@ -949,6 +974,8 @@ function unfloat_animation() {
 
     if (mC3DGLTF.scene.position.y <= 0) {
         mC3DGLTF.scene.position.y = 0;
+
+        revealMenu();
         return;
     }
 
