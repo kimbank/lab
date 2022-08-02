@@ -1,5 +1,5 @@
 //Whether debuging is enabled or not
-var IS_DEBUG=false;
+var IS_DEBUG=true;
 //Whether to show fps counter or not
 var SHOW_FPS = false;
 
@@ -204,6 +204,11 @@ function SetupEnvironment()
 //Function to skip the intro
 function SkipIntro()
 {
+    
+        
+    // 이동 키
+    // mC3DGLTF.scene.position.set(0, 5, 0)
+
     //Start fading the audio
     $(mAudioTrack).animate({volume:0},900,function()
     {
@@ -513,8 +518,10 @@ function AddCinemeticSequence()
     });
 
     //If debug mode enabled, add camera helper for cine cam
-    if(IS_DEBUG)
-        mScene.add( new THREE.CameraHelper( mCineCamera ) );        
+    if(IS_DEBUG)  {
+        mScene.add( new THREE.CameraHelper( mCineCamera ) );   
+        SkipIntro();
+    }     
 }
 
 
@@ -565,7 +572,7 @@ function LoadConfigurator(mConfigJSON)
 {
     //The config palette element
     var config_palette = $([ // style="display: none;" 으로 안보이게 - 색상 변경 기능
-    '<div class="configurator-palette" style="display: none;">',
+    '<div class="configurator-palette" style="">',
         '<div class="options-palette">',
             '<nav class="nav-config">',
                 '<ul>',
@@ -626,8 +633,30 @@ function LoadConfigurator(mConfigJSON)
 
      '</div>'].join(''));
 
+     var MENU = $([
+        '<div id="MENU">',
+            '<nav id="nav-config">',
+                '<ul>',
+                    '<li>',
+                        '<a id="nav-config-item" onclick="playFloat()">',
+                            '<img src="./data/flooding.svg" width="40">',
+                            '<span>침수 시뮬레이션</span>',
+                        '</a>',
+                    '</li>',
+                    '<li>',
+                        '<a id="nav-config-item" onclick="playUnfloat()">',
+                            '<img src="./data/undo.svg" width="40">',
+                            '<span>되돌아가기</span>',
+                        '</a>',
+                    '</li>',
+                '</ul>',
+            '</nav>',
+        '</div>'
+    ].join(''));
+
     //Append the cofigurator palette to body
-    $('body').append(config_palette);   
+    // $('body').append(config_palette);
+    $('body').append(MENU);
 
     //Upon clicking the config tab
     $('.nav-config-item',config_palette).click(function()
@@ -673,7 +702,7 @@ function LoadConfigurator(mConfigJSON)
 
             });
         }
-                 
+        
         //Set the current clicked tab active
         $('.nav-config-item[data-id="'+configID+'"]',config_palette).addClass("active");
         //Show the clicked palette conent
@@ -882,3 +911,46 @@ function getRandomInt(min, max)
 // function moveObject() {
 //     SetEntityVisible(mC3DGLTF.scene,targetName);
 // }
+var step;
+var hh;
+var gg;
+
+function playFloat() {
+    step = 0;
+    hh = 0;
+    gg = 5;
+    float_animation();
+}
+
+function float_animation() {           
+    step += 0.01;
+    mC3DGLTF.scene.position.y = hh + ( gg * Math.abs(Math.sin(step)));
+
+    if (step > 2 && mC3DGLTF.scene.position.y < 4.5) {
+        hh = mC3DGLTF.scene.position.y
+        step = 0;
+        gg = 0.3;
+    }
+
+    if (step > 2.1) {
+        console.log("ended!!!")
+        return;
+    }
+
+    requestAnimationFrame(float_animation);
+}
+
+function playUnfloat() {
+    unfloat_animation();
+}
+
+function unfloat_animation() {
+    mC3DGLTF.scene.position.y -= 0.03
+
+    if (mC3DGLTF.scene.position.y <= 0) {
+        mC3DGLTF.scene.position.y = 0;
+        return;
+    }
+
+    requestAnimationFrame(unfloat_animation);
+}

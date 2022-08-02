@@ -1,6 +1,64 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
 
+#dede {
+	position: absolute;
+	bottom: 0px;
+	right: 25%;
+	left: 50%;
+}
+
+svg:hover{
+    fill: green;
+}
+
+#MENU
+{
+	display: block;
+	position: absolute;
+	width: 960px;	
+	bottom: 0px;
+	right: 25%;
+	left: 50%;
+	margin-left: -480px;
+	margin-bottom: 32px;
+}
+
+#nav-config ul li,
+#palette-content ul li
+{
+	display: inline-block;
+}
+
+#nav-config-item
+{	
+	padding: 8px 16px;	
+	background:rgba(0,0,0,0.75);
+	transform: skew(20deg); 
+    -webkit-transform: skew(20deg); 
+	cursor: pointer;
+}
+
+#nav-config-item span
+{	
+	font-weight: bold;
+	display: block;
+	color: #999;
+	transform: skew(-20deg); 
+    -webkit-transform: skew(-20deg);
+	
+}
+
+#nav-config-item:hover
+{ background: #fff;}
+#nav-config-item:hover > span
+{ color: #000; }
+
+#nav-config-item.active
+{background: #ccc;}
+#nav-config-item.active span
+{color: #333;}
+
 body
 {
 	margin: 0px;
