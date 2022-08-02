@@ -1,7 +1,7 @@
 //Whether debuging is enabled or not
 var IS_DEBUG=false;
 //Whether to show fps counter or not
-var SHOW_FPS = true;
+var SHOW_FPS = false;
 
 //The statistics object
 var stats;
@@ -22,7 +22,7 @@ var mMainCamera;
 //The orbit controls object
 var mOrbitControls;
 //The camera startup position
-const mOrbitCamPos =  new THREE.Vector3( 20, 10, 20 );
+const mOrbitCamPos =  new THREE.Vector3( -18, 20, 30 );
 //The camera lookat target
 const mOrbitCamTarget =  new THREE.Vector3( 0, 3, 0 );
 
@@ -77,11 +77,11 @@ function Initialize()
     mScene = new THREE.Scene();
 
     //Create and add a cine cam to the scene
-    mCineCamera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
+    mCineCamera = new THREE.PerspectiveCamera(100, window.innerWidth/window.innerHeight, 0.1, 1000);
     mScene.add(mCineCamera);
 
     //Create and add an orbit cam to the scene
-    mOrbitCamera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
+    mOrbitCamera = new THREE.PerspectiveCamera(66, window.innerWidth/window.innerHeight, 0.1, 1000);
     mOrbitCamera.position.copy(mOrbitCamPos);        
      
     //Add event listener to respond to window resize
@@ -114,7 +114,7 @@ function Initialize()
     mMainCamera = mCineCamera;
 
     //Load the audtio track
-    mAudioTrack = new Audio('data/audio_track.mp3');
+    // mAudioTrack = new Audio('data/audio_track.mp3'); // 배경 음악
 
     //Setup the environment
     SetupEnvironment(); 
@@ -126,11 +126,11 @@ function Initialize()
         mConfigJSON = json;
 
 		//Load the aventador model
-    	LoadAventador(mConfigJSON);    	
+    	LoadAventador(mConfigJSON);	
 
 		//Create the cinematics
-    	AddCinemeticSequence();       	
-
+    	AddCinemeticSequence();
+        // SetOrbitCamera();
     });    
 
 	//Recalculate context
@@ -239,7 +239,7 @@ function LoadAventador(config)
 	var stpIndex = 3;//getRandomInt(0,config.body_colors.colors.length-1);
 
 	//Choose a random body color
-	mCBodyColor = config.body_colors.colors[stpIndex].value;	
+	mCBodyColor = config.body_colors.colors[stpIndex].value;
 
 	//Get the startup colors for configurables
 	var dfCol_Body 				= webColorToHex(mCBodyColor);
@@ -356,7 +356,9 @@ function LoadAventador(config)
 
         //Add the gltf object to the scene
         mScene.add( mC3DGLTF.scene );
-    }); 
+    });
+
+    // mC3DGLTF.position = 4
 }
 
 //Function will be called with load progress
@@ -385,9 +387,9 @@ function OnLoadCompleted()
     });    
 
     // Start the cinematic
-    mCineShotsList[0].start();
+    mCineShotsList[0].start(); // 인트로 움직임
     //Start the audio track
-    mAudioTrack.play();
+    // mAudioTrack.play(); // 배경 음악
 }
 
 
@@ -401,6 +403,7 @@ function OnLoadError(item)
 }
 
 //Function to add the cinematic sequence
+// 초반 애니메이션
 function AddCinemeticSequence()
 {   
     //The cinematic sequence
@@ -412,54 +415,54 @@ function AddCinemeticSequence()
             cR:{x:0.0, y:-45, z:5.0},
             tD:9500
         },
-        {
-            sP:{x:-18, y:0,   z:2.5},
-            eP:{x:-18, y:0,   z:5.5},
-            cR:{x:0.0, y:-90, z:0.0},
-            tD:5000
-        },
-        {
-            sP:{x:-13.50, y:-3.75,  z:3.75},
-            eP:{x:-12.00, y:-5.50,  z:4.50},
-            cR:{x:-41.79, y:-42.36, z:-19.55},
-            tD:7000
-        },
+        // {
+        //     sP:{x:-18, y:0,   z:2.5},
+        //     eP:{x:-18, y:0,   z:5.5},
+        //     cR:{x:0.0, y:-90, z:0.0},
+        //     tD:5000
+        // },
+        // {
+        //     sP:{x:-13.50, y:-3.75,  z:3.75},
+        //     eP:{x:-12.00, y:-5.50,  z:4.50},
+        //     cR:{x:-41.79, y:-42.36, z:-19.55},
+        //     tD:7000
+        // },
         {
             sP:{x:-10.50, y:-8.0,   z:1.50},
             eP:{x:-14.00, y:-12.0,  z:1.00},
             cR:{x:10.12,  y:-43.88, z:-7.06},
             tD:7000
         },
-        {
-            sP:{x:-13,    y:-14, z:14},
-            eP:{x:11,     y:-14, z:14},
-            cR:{x:-38.28, y:0.0, z:0.0},
-            tD:12000
-        },
-        {
-            sP:{x:12.85, y:-1.0,  z:4.35},
-            eP:{x:12.85, y:0.70,  z:4.35},
-            cR:{x:47.34, y:50.53, z:-33.90},
-            tD:7000
-        },
-        {
-            sP:{x:13, y:-4.5,  z:2.5},
-            eP:{x:13, y:-4.5,  z:5.0},
-            cR:{x:0,  y:58, z:5.35},
-            tD:7000
-        },
-        {
-            sP:{x:-3.3, y:-6.5,  z:5.0},
-            eP:{x:1.2, y:-6.5,   z:5.35},
-            cR:{x:-30.65, y:-55.53, z:-1.88},
-            tD:5000
-        },
-        {
-            sP:{x:-13.85, y:-0.35,  z:3.15},
-            eP:{x:-14.50, y:-1.1,   z:3.75},
-            cR:{x:-35.54, y:-35.16, z:-15.17},
-            tD:8000
-        }
+        // {
+        //     sP:{x:-13,    y:-14, z:14},
+        //     eP:{x:11,     y:-14, z:14},
+        //     cR:{x:-38.28, y:0.0, z:0.0},
+        //     tD:12000
+        // },
+        // {
+        //     sP:{x:12.85, y:-1.0,  z:4.35},
+        //     eP:{x:12.85, y:0.70,  z:4.35},
+        //     cR:{x:47.34, y:50.53, z:-33.90},
+        //     tD:7000
+        // },
+        // {
+        //     sP:{x:13, y:-4.5,  z:2.5},
+        //     eP:{x:13, y:-4.5,  z:5.0},
+        //     cR:{x:0,  y:58, z:5.35},
+        //     tD:7000
+        // },
+        // {
+        //     sP:{x:-3.3, y:-6.5,  z:5.0},
+        //     eP:{x:1.2, y:-6.5,   z:5.35},
+        //     cR:{x:-30.65, y:-55.53, z:-1.88},
+        //     tD:5000
+        // },
+        // {
+        //     sP:{x:-13.85, y:-0.35,  z:3.15},
+        //     eP:{x:-14.50, y:-1.1,   z:3.75},
+        //     cR:{x:-35.54, y:-35.16, z:-15.17},
+        //     tD:8000
+        // }
     ];
 
     for(var i=0;i<mSequence.length;i++)
@@ -561,8 +564,8 @@ function OnContextResized()
 function LoadConfigurator(mConfigJSON)
 {
     //The config palette element
-    var config_palette = $([
-    '<div class="configurator-palette">',
+    var config_palette = $([ // style="display: none;" 으로 안보이게 - 색상 변경 기능
+    '<div class="configurator-palette" style="display: none;">',
         '<div class="options-palette">',
             '<nav class="nav-config">',
                 '<ul>',
@@ -775,7 +778,7 @@ function SetOrbitCamera()
     mOrbitControls = new THREE.OrbitControls(mOrbitCamera,mRenderer.domElement);
     mOrbitControls.target = mOrbitCamTarget;
     mOrbitControls.enablePan = false;
-    mOrbitControls.enableZoom = true; 
+    mOrbitControls.enableZoom = false; 
     mOrbitControls.enableDamping = true;
     mOrbitControls.minPolarAngle = 0.75; //Uper
     mOrbitControls.maxPolarAngle = 1.6; //Lower
@@ -783,7 +786,7 @@ function SetOrbitCamera()
     mOrbitControls.rotateSpeed = 0.07;
     mOrbitControls.minDistance = 16
     mOrbitControls.maxDistance = 32;
-    mOrbitControls.autoRotate = true;
+    mOrbitControls.autoRotate = false;
     mOrbitControls.autoRotateSpeed = 0.05;
 
     //Set orbit camera as main camera
@@ -873,3 +876,9 @@ function getRandomInt(min, max)
 {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+
+/////////////////////////////
+// function moveObject() {
+//     SetEntityVisible(mC3DGLTF.scene,targetName);
+// }

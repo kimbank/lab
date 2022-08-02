@@ -16,8 +16,8 @@
         "value":"#4393E6"
       },
       {
-        "name":"Rosso Mars",
-        "value":"#BF0012"
+        "name":"Darkseagreen",
+        "value":"#8fbc8f"
       },
       {
         "name":"Bianco Monocerus",
@@ -77,6 +77,10 @@
   {
     "colors":
     [
+      {
+        "name":"Darkseagreen",
+        "value":"#8fbc8f"
+      },
       {
         "name":"Red",
         "value":"#990000"
