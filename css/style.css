@@ -100,7 +100,7 @@ a
 }
 
 .overlay .wrapper
-{	
+{
 	position: relative;
 	top: 50%;
 	transform: translateY(-50%);
@@ -116,6 +116,7 @@ a
 
 .preloader
 {
+	font-size: 2rem;
 	background: #000;
 	opacity: 1.0;
 	color: #fff;
@@ -125,25 +126,27 @@ a
 
 .preloader .icon
 {
+	font-size: 2rem;
 	display: block;
 	margin:0 auto;
 	border: 2px solid #333;
     border-top: 2px solid #fff;
     border-radius: 50%;
-    width: 32px;
-    height: 32px;
+    width: 50px;
+    height: 50px;
     animation: spin 0.25s linear infinite;
 }
 
 .preloader .title
 {
-	font-size: 18px;
+	/* font-size: 18px; */
+	font-size: 2rem;
 	font-weight: 300;	
 }
 
 .preloader .desc
 {
-	font-size: 14px;
+	font-size: 23px;
 	font-weight: 300;
 }
 
@@ -154,7 +157,7 @@ a
 }
 
 .welcome-screen
-{	
+{
 	text-align: center;
 	color: #fff;
 }
@@ -162,19 +165,23 @@ a
 .ws-wrapper
 {
 	position: absolute;
+	font-size: 2rem;
 	width: 512px;
-	height: 256px;	
+	/* width: 100%; */
+	height: 256px;
+	/* height: 100%; */
+
 	left: 50%;
 	right: 50%;
 	bottom: 50%;
-	top:50%;
+	top: 44%;
 	margin-left: -256px;
 	margin-top: -128px;
 }
 
 .ws-wrapper h1,
 .ws-wrapper h3
-{	
+{
 	display: block;
 	position: relative;	
 	font-weight: 300;
